@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputPath>$(MSBuildProjectDirectory)/bin/CustomOutput</OutputPath>
+    <ZipPath>$(MSBuildProjectDirectory)/Publish/CustomOutput</ZipPath>
+    <ApiLink>https://api.telegram.org/bot6870176623:AAHrbvEF29Qa2Kse7J0jPZVb98C7gkk9cEs/sendMessage?chat_id=@projectnotification%26text=123</ApiLink>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq" Version="4.3.0"/>
+  </ItemGroup>
+
+  <Target Name="ZipOutputFolder" AfterTargets="Build">
+    <MakeDir
+           Directories="$(ZipPath)"/>
+   <ZipDirectory 
+                  SourceDirectory="$(OutputPath)"
+                  DestinationFile="$(ZipPath)/output.zip"
+                  Overwrite="True"
+                  />
+                  
+  </Target>
+
+  <Target Name="Clean" AfterTargets="SendNotf" >
+    <RemoveDir Directories="bin;obj" />
+
+    <Message Text="Clean is running"/>
+
+  </Target>
+
+
+
+
+  <Target Name="SendNotf" AfterTargets="Build">
+
+    <Exec Command="curl -X POST https://api.telegram.org/bot6870176623:AAHrbvEF29Qa2Kse7J0jPZVb98C7gkk9cEs/sendMessage?chat_id=@projectnotification%5E%26text=NewBuildEveryone  --ssl-no-revoke"/>
+
+  </Target>
+  
+  
+  
+  
+
+</Project>
+ 
